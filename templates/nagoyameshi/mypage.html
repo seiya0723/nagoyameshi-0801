@@ -1,0 +1,77 @@
+{% extends 'nagoyameshi/base.html' %}
+
+{% block head %}
+{% load static %}
+
+{% comment %}  
+     <style>
+        body{
+                background-image: url("{% static 'image/fondo-web.jpg' %}");
+            }
+     </style>
+{% endcomment %}
+{% endblock %}
+
+{% block main %}
+
+
+<br><br>
+<h2 class="d-inline-block text-info p-4 border border rounded-pill border-info">投稿したレビュー</h2>
+
+{# {{ reviews }} #}
+
+{% for review in reviews %}
+<div class="border">
+    <div>{{ review.restaurant.name }}</div>
+    <div>{{ review.created_at }}</div>
+    <div>{{ review.content }}</div>
+</div>
+{% endfor %}
+
+<br>
+<h2 class="d-inline-block text-info p-4 border border rounded-pill border-info">お気に入り</h2>
+
+{% for favorite in favorites %}
+<div class="border">
+    <div>{{ favorite.restaurant.name }}</div>
+</div>
+{% endfor %}
+
+<br>
+<h2 class="d-inline-block text-info p-4 border border rounded-pill border-info">予約</h2>
+
+
+{% for reservation in reservations %}
+<div class="border">
+    <div>{{ reservation.restaurant.name }}</div>
+    <div>予約日時:{{ reservation.datetime }}</div>    
+    <div>{{ reservation.headcount }}名</div> 
+    
+
+    {# TODO: 未来の予約に限り、キャンセルできるようにする。#}
+    {# 予約日と今日の日付を比較する。 #}
+    {% if now < reservation.datetime %}
+    <form action="{% url 'nagoyameshi:reservation_cancel' reservation.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="予約キャンセル" class="d-inline-block p-2 text-danger  border rounded-bottom">
+    </form>
+    {% endif %}
+
+</div>
+{% endfor %}
+
+<br><br>
+
+{# TODO: 有料会員登録ボタンを用意する。 #}
+{# 1: 有料会員登録のボタン #} 
+<form action="{% url 'nagoyameshi:checkout' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="有料会員登録する - Regístrese como miembro pago">
+</form>
+<br>
+<a href="{% url 'nagoyameshi:portal' %}"><p class="d-inline-block p-2 text-warning  border rounded-bottom">有料会員設定 - Configuración de membresía pago</p></a>
+
+
+
+
+{% endblock %}

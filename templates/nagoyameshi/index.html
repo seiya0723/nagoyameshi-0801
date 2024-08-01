@@ -1,0 +1,99 @@
+{% extends 'nagoyameshi/base.html' %}
+
+
+{% block head %}
+{% load static %}
+   
+     <style>
+        body{
+                background-image: url("{% static 'image/misoshiru.jpg' %}");
+            }
+     </style>
+   
+
+{% endblock %}
+
+{% block main %}
+
+{# トップページのコンテンツ #}
+
+{# 店舗の全データを表示する #}
+
+{# Django Template Language (DTL) で restaurants キーを {{}} で指定して呼び出し。 #}
+
+
+
+
+
+
+{# 検索機能を実装する #}
+
+
+<br>
+<form action="" method="GET">
+
+    {# categories のレンダリング #}
+    {% comment %}
+    {% for category in categories %}
+    <div>{{ category }}</div>
+    {% endfor %}
+    {% endcomment %}
+
+    <select name="category">
+        <option value="">未指定</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}" {% if category.str_id == request.GET.category %}selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
+    </select>
+
+    {% comment %}
+    <select name="" id="">
+        <option value="">a</option>
+        <option value="">b</option>
+        <option value="" selected>c</option>
+    </select>
+    {% endcomment %}
+
+
+    <div class="input-group">
+        {#                                                              ↓検索していれば、キーワードを表示      #}
+        <input class="form-control" type="text" name="search" value="{{ request.GET.search }}" placeholder="ここにキーワードを入力">
+        <div class="input-group-apend">
+            <input class="btn btn-outline-primary" type="submit" value="検索 - Buscar">
+        </div>
+    </div>
+</form>
+
+
+
+
+<br><br>
+<!--         ↓ 両端にマージンを取る -->
+<div class="container">
+    <!--        ↓横並びに表示 -->
+    <div class="row">
+        {# 配列をforを使って一つずつ表示する。 #}        
+        {% for restaurant in restaurants %}
+        <!--          ↓ 12分割のうち3つ分の枠を使って表示。12/3 で4分割で表示できる。2分割で表示させたいときはcol-6  -->
+        <div class="col-3">
+            <h2 class="text-light">{{ restaurant.name }}</h2>
+            <div class="text-light">営業時間: {{ restaurant.start_at }} ~ {{ restaurant.end_at }}</div>
+            <div class="text-light">カテゴリ: {{ restaurant.category }}</div>
+            <div class="text-light">価格帯: {{ restaurant.cost }}円</div>
+            
+            <!--           ↓右寄せ -->
+            <div class="text-center">
+                <a href="{% url 'nagoyameshi:restaurant' restaurant.id %}"><p class="d-inline-block p-2 text-info border rounded-circle border-info">店舗個別ページ</p></a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br>
+
+<a href="mailto:misoshiru@yahoo.com">Nagoyameshi@yahoo.com</a><br>
+        
+<a href="tel:+81456123">08078945612</a>
+
+
+{% endblock %}

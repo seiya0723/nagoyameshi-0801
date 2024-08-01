@@ -1,0 +1,14 @@
+/* {% load static %}  ←DTLはCSSファイル内では使えない。 */
+
+a {
+    text-decoration: none;
+}
+
+body{
+    
+    /* 静的ファイルのパスを指定するCSSは、HTMLにstyleタグを使って書く。 */
+    /* background-image: url(); */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:cover;
+}

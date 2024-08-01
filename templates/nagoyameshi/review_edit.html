@@ -1,0 +1,23 @@
+{% extends 'nagoyameshi/base.html' %}
+
+{% block head %}
+{% endblock %}
+
+{% block main %}
+
+<h2>レビュー編集</h2>
+
+{# action属性は、formの送信先のURL。 {% url 'nagoyameshi:review' %} だと、ReviewViewに行き着く。 #}
+{# action属性を、ReviewEditViewに行き着くように修正をする。 #}
+<form action="{% url 'nagoyameshi:review_edit' review.id %}" method="post">
+    {# POSTメソッドのリクエストを送る場合は、csrf_token のテンプレートタグを用意する。 #}
+    {# Al enviar una solicitud de método POST, prepare una etiqueta de plantilla csrf_token. #}
+    {% csrf_token %}
+    {# TODO: restaurant と user のフォームも用意 #}
+    <input type="hidden" name="restaurant" placeholder="店舗ID" value="{{ review.restaurant.id }}">
+    <input type="hidden" name="user" placeholder="ユーザーID" value="{{ request.user.id }}">
+    <textarea class="form-control" name="content" placeholder="レビュー内容">{{ review.content }}</textarea>
+    <input type="submit" value="送信 - Enviar">
+</form>
+
+{% endblock %}
