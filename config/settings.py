@@ -202,7 +202,6 @@ if "STRIPE_PUBLISHABLE_KEY" in os.environ and "STRIPE_API_KEY" in os.environ and
     STRIPE_PRICE_ID         = os.environ["STRIPE_PRICE_ID"]
 
 
-
 # Herokuデプロイの際に動かす設定。
 
 if not DEBUG:
